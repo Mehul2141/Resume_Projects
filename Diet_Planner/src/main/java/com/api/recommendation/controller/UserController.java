@@ -1,6 +1,5 @@
 package com.api.recommendation.controller;
 
-import com.api.recommendation.dto.LoginRequest;
 import com.api.recommendation.dto.RegisterRequest;
 import com.api.recommendation.entity.User;
 import com.api.recommendation.service.UserService;
@@ -22,7 +21,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try{
-            User user = userService.register(request);
+            User user = userService.register(request, false);
             if(user == null){
                 return ResponseEntity
                                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -39,6 +38,11 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public String loginrequest(@RequestBody User user){
+        return userService.verifyuser(user);
+    }
+
     @GetMapping("/getuser")
     public ResponseEntity<User> getuserbyusername(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,13 +52,6 @@ public class UserController {
             return new ResponseEntity<>(entry, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        //User user = userService.authenticate(request);
-        // For now, just return a placeholder token
-        return ResponseEntity.ok("token-placeholder");
     }
 }
 
