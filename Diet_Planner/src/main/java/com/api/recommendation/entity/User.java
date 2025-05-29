@@ -6,6 +6,8 @@ import lombok.NonNull;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 
 @Document(collection = "user_entries")
 @Data
@@ -18,6 +20,7 @@ public class User {
     private String email;
     @NonNull
     private String password;
+    private List<String> roles;
 
     public User() {}
 
@@ -48,6 +51,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public List<String> getRoles() {
+        return roles;
     }
 // getters and setters
 }

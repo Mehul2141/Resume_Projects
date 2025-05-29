@@ -4,9 +4,11 @@ import com.api.recommendation.dto.RegisterRequest;
 import com.api.recommendation.entity.User;
 import com.api.recommendation.repository.Userrepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+import java.util.Arrays;
+
+@Component
 public class UserService {
     private final Userrepo userrepo;
     private final PasswordEncoder passwordEncoder;
@@ -25,7 +27,12 @@ public class UserService {
         user.setUserName(request.getUserName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRoles(Arrays.asList("USER"));
         return userrepo.save(user);
+    }
+
+    public User findByUserName(String username){
+        return userrepo.findByUserName(username);
     }
 
 //    public User authenticate(LoginRequest request) {
